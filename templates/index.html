@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테트리스 - 홈</title>
+    <link rel="stylesheet" href="/static/landing.css">
+</head>
+<body>
+    <div class="home-page">
+        <!-- 헤더 -->
+        <header class="top-bar">
+            <div class="logo">🎮 테트리스</div>
+            <div class="user-actions">
+                <span class="user-email">{{ user.email }}</span>
+                <button id="logoutBtnHome" class="logout-btn">로그아웃</button>
+            </div>
+        </header>
+
+        <!-- 메인 컨텐츠 -->
+        <main class="home-content">
+            <!-- 게임 시작 -->
+            <section class="hero-section">
+                <h1 class="hero-title">Ready to Play?</h1>
+                <p class="hero-subtitle">클래식 블록 퍼즐 게임에 도전하세요</p>
+                <button id="playButton" class="play-btn">게임 시작 🎮</button>
+            </section>
+
+            <!-- 정보 영역 -->
+            <div class="info-grid">
+                <!-- 게임 규칙 -->
+                <div class="info-card">
+                    <h3>📋 게임 규칙</h3>
+                    <ul class="rules-list">
+                        <li>라인 완성 시 <strong>100점</strong></li>
+                        <li>30초마다 레벨업</li>
+                        <li>블록이 위까지 쌓이면 종료</li>
+                    </ul>
+                </div>
+
+                <!-- 조작법 -->
+                <div class="info-card">
+                    <h3>⌨️ 게임 설명</h3>
+                    <div class="controls-list">
+                        <div class="control"><kbd>← →</kbd> 좌우 이동</div>
+                        <div class="control"><kbd>↑</kbd> 블록 회전</div>
+                        <div class="control"><kbd>↓</kbd> 빠른 낙하</div>
+                        <div class="control"><kbd>SPACE</kbd> 즉시 낙하</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('logoutBtnHome').addEventListener('click', async () => {
+            try {
+                await fetch('/api/auth/logout', { method: 'POST' });
+                window.location.href = '/';
+            } catch (error) {
+                console.error('로그아웃 오류:', error);
+            }
+        });
+
+        document.getElementById('playButton').addEventListener('click', () => {
+            window.location.href = '/game';
+        });
+    </script>
+</body>
+</html>

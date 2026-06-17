@@ -11,13 +11,13 @@ const BLOCK_SIZE = 30;
 const NEXT_BLOCK_SIZE = 25;
 const COLORS = [
     null,
-    '#FF6B6B',
-    '#4ECDC4',
-    '#45B7D1',
-    '#FFA07A',
-    '#98D8C8',
-    '#F7DC6F',
-    '#BB8FCE'
+    '#FFB6D9',
+    '#D5AAFF',
+    '#B4E4FF',
+    '#FFD6A5',
+    '#A8E6CF',
+    '#FFEAA7',
+    '#FDB2EA'
 ];
 
 const SHAPES = [
@@ -264,6 +264,31 @@ function spawnPiece() {
     }
 }
 
+async function submitScore() {
+    try {
+        const playDuration = Math.floor((Date.now() - gameStartTime) / 1000);
+        const response = await fetch('/api/scores', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                score: score,
+                level: level,
+                lines_cleared: linesCleared,
+                play_duration: playDuration
+            })
+        });
+
+        if (response.ok) {
+            console.log('점수 제출 완료');
+            await loadTopScores();
+        } else {
+            console.error('점수 제출 실패');
+        }
+    } catch (error) {
+        console.error('점수 제출 오류:', error);
+    }
+}
+
 function gameOver() {
     isGameOver = true;
     clearInterval(gameInterval);
@@ -271,6 +296,9 @@ function gameOver() {
     if (typeof stopMusic === 'function') {
         stopMusic();
     }
+
+    submitScore();
+
     alert(`게임 오버!\n최종 점수: ${score}\n최종 레벨: ${level}\n\n새 게임을 시작하려면 페이지를 새로고침하세요.`);
 }
 
@@ -291,18 +319,22 @@ document.addEventListener('keydown', (e) => {
 
     switch (e.key) {
         case 'ArrowLeft':
+            e.preventDefault();
             moveLeft();
             draw();
             break;
         case 'ArrowRight':
+            e.preventDefault();
             moveRight();
             draw();
             break;
         case 'ArrowDown':
+            e.preventDefault();
             moveDown();
             draw();
             break;
         case 'ArrowUp':
+            e.preventDefault();
             rotate();
             draw();
             break;
@@ -313,6 +345,48 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+async function loadTopScores() {
+    try {
+        const response = await fetch('/api/scores/top?limit=10');
+        if (response.ok) {
+            const scores = await response.json();
+            const topScoresDiv = document.getElementById('topScores');
+
+            if (scores.length === 0) {
+                topScoresDiv.innerHTML = '<p style="text-align: center; color: #999; padding: 20px; font-size: 0.9em;">아직 기록이 없습니다</p>';
+                return;
+            }
+
+            let html = '<ol>';
+            scores.forEach((s, index) => {
+                const emailShort = s.email.length > 15 ? s.email.substring(0, 12) + '...' : s.email;
+                html += `<li>
+                    <strong>${emailShort}</strong>
+                    <span>${s.score.toLocaleString()}점 • Lv.${s.level}</span>
+                </li>`;
+            });
+            html += '</ol>';
+            topScoresDiv.innerHTML = html;
+        }
+    } catch (error) {
+        console.error('최고 점수 로드 오류:', error);
+    }
+}
+
+function setupLogout() {
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await fetch('/api/auth/logout', { method: 'POST' });
+                window.location.href = '/';
+            } catch (error) {
+                console.error('로그아웃 오류:', error);
+            }
+        });
+    }
+}
+
 function init() {
     nextPiece = createPiece();
     drawNextPiece();
@@ -322,13 +396,16 @@ function init() {
     const speed = Math.max(100, 500 - (level - 1) * 50);
     gameInterval = setInterval(update, speed);
 
-    levelInterval = setInterval(updateLevel, 60000);
+    levelInterval = setInterval(updateLevel, 30000);
 
     if (typeof startMusic === 'function') {
         startMusic();
     }
 
     gameStartTime = Date.now();
+
+    loadTopScores();
+    setupLogout();
 }
 
 init();

@@ -1,0 +1,25 @@
+nohup: ignoring input
+INFO:     Started server process [6297]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50066 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50066 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:36036 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:36036 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36036 - "GET /home HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36036 - "GET /static/landing.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36038 - "GET /game HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36038 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36038 - "GET /static/music.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36038 - "GET /static/game.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36038 - "GET /api/scores/top?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36038 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:36038 - "GET /home HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50370 - "GET /game HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50370 - "GET /api/scores/top?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50370 - "GET /home HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50372 - "GET /game HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50372 - "GET /api/scores/top?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60030 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60030 - "GET / HTTP/1.1" 200 OK

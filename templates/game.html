@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테트리스 - 게임</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- 상단 헤더 -->
+        <header class="game-navbar">
+            <a href="/home" class="nav-back">← 홈</a>
+            <div class="nav-title">🎮 테트리스</div>
+            <div class="nav-user">
+                <span>{{ user.email }}</span>
+                <button id="logoutBtn">나가기</button>
+            </div>
+        </header>
+
+        <!-- 게임 영역 -->
+        <main class="game-layout">
+            <!-- 중앙: 게임 캔버스 -->
+            <section class="game-area">
+                <div class="canvas-box">
+                    <canvas id="gameCanvas" width="300" height="600"></canvas>
+                </div>
+            </section>
+
+            <!-- 오른쪽: 정보 패널 -->
+            <aside class="info-area">
+                <!-- 다음 블록 -->
+                <div class="next-box">
+                    <div class="next-title">다음 블록</div>
+                    <canvas id="nextCanvas" width="100" height="100"></canvas>
+                </div>
+
+                <!-- 점수 & 레벨 -->
+                <div class="stat-box">
+                    <div class="stat-label">점수</div>
+                    <div class="stat-value" id="score">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">레벨</div>
+                    <div class="stat-value" id="level">1</div>
+                </div>
+
+                <!-- 랭킹 -->
+                <div class="rank-box">
+                    <h3>🏆 랭킹</h3>
+                    <div id="topScores" class="rank-list"></div>
+                </div>
+
+                <!-- 조작법 -->
+                <div class="control-box">
+                    <h4>⌨️ 조작법</h4>
+                    <div class="keys">
+                        <div><kbd>← →</kbd> 이동</div>
+                        <div><kbd>↑</kbd> 회전</div>
+                        <div><kbd>↓</kbd> 가속</div>
+                        <div><kbd>SPACE</kbd> 낙하</div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script src="/static/music.js" defer></script>
+    <script src="/static/game.js" defer></script>
+</body>
+</html>
